@@ -1,0 +1,376 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "sample-confork-app",
+        "description": ""
+    },
+    "servers": [
+        {
+            "url": "http://localhost:7000"
+        }
+    ],
+    "paths": {
+        "/api/v1/users": {
+            "post": {
+                "summary": "Create new user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "nullable": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "minimum": -2147483648,
+                                            "maximum": 2147483647,
+                                            "type": "integer",
+                                            "default": "nextval('user_id_seq'::regclass)",
+                                            "nullable": false
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "maxLength": 100,
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid data passed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+                                                "key": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List users",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "number",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "number",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "DESC",
+                            "enum": [
+                                "DESC",
+                                "ASC"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "id"
+                        }
+                    },
+                    {
+                        "name": "select",
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "minimum": -2147483648,
+                                            "maximum": 2147483647,
+                                            "type": "integer",
+                                            "default": "nextval('user_id_seq'::regclass)",
+                                            "nullable": false
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "maxLength": 100,
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{id}": {
+            "get": {
+                "summary": "Get a user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "minimum": -2147483648,
+                                            "maximum": 2147483647,
+                                            "type": "integer",
+                                            "default": "nextval('user_id_seq'::regclass)",
+                                            "nullable": false
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "maxLength": 100,
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{id}/photos": {
+            "post": {
+                "summary": "Add photo to user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "anyOf": [
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "filename": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "minimum": -2147483648,
+                                            "maximum": 2147483647,
+                                            "type": "integer",
+                                            "default": "nextval('user_id_seq'::regclass)",
+                                            "nullable": false
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "maxLength": 100,
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid data passed!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+                                                "key": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/photo/{id}": {
+            "delete": {
+                "summary": "Delete a photo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "description": {
+                                            "type": "string",
+                                            "nullable": false
+                                        },
+                                        "filename": {
+                                            "type": "string",
+                                            "nullable": false
+                                        },
+                                        "id": {
+                                            "minimum": -2147483648,
+                                            "maximum": 2147483647,
+                                            "type": "integer",
+                                            "default": "nextval('photo_id_seq'::regclass)",
+                                            "nullable": false
+                                        },
+                                        "isPublished": {
+                                            "type": "boolean",
+                                            "nullable": false
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "maxLength": 100,
+                                            "nullable": false
+                                        },
+                                        "userId": {
+                                            "minimum": -2147483648,
+                                            "maximum": 2147483647,
+                                            "type": "integer",
+                                            "nullable": true
+                                        },
+                                        "views": {
+                                            "minimum": -32768,
+                                            "maximum": 32767,
+                                            "type": "integer",
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
