@@ -14,7 +14,7 @@ services:
       - /app/node_modules
 
   postgres:
-    image: postgres:10.4
+    image: postgres:9.5
 #    ports:
 #      - "35432:5432"
     environment:
